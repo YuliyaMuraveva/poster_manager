@@ -6,7 +6,7 @@ import ru.netology.domain.Movie;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PosterManagerTestNonEmpty {
+class PosterManagerTest {
     private PosterManager manager = new PosterManager();
     private int quantity = 10;
     private Movie first = new Movie(1, "first", "Action", "www.firstUrl.com");

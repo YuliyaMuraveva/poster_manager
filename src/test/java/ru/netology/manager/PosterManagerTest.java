@@ -2,12 +2,17 @@ package ru.netology.manager;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.Movie;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith(MockitoExtension.class)
 class PosterManagerTest {
-    private PosterManager manager = new PosterManager();
+    @Mock
+    private PosterManager manager;
     private int quantity = 10;
     private Movie first = new Movie(1, "first", "Action", "www.firstUrl.com");
     private Movie second = new Movie(2, "second", "Comedy", "www.secondUrl.com");

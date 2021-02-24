@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PosterManagerTest {
     private PosterManager manager = new PosterManager();
-    private int quantity = 10;
     private Movie first = new Movie(1, "first", "Action", "www.firstUrl.com");
     private Movie second = new Movie(2, "second", "Comedy", "www.secondUrl.com");
     private Movie third = new Movie(3, "third", "Cartoon", "www.thirdUrl.com");
@@ -36,7 +35,7 @@ class PosterManagerTest {
 
     @Test
     void getLastWithQuantityMoreThanInList() {
-        Movie[] actual = manager.getLast(quantity);
+        Movie[] actual = manager.getLast();
         Movie[] expected = new Movie[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
         assertArrayEquals(expected, actual);
     }
@@ -45,7 +44,7 @@ class PosterManagerTest {
     void getLastWithQuantityLessThanInList() {
         manager.add(tenth);
         manager.add(eleventh);
-        Movie[] actual = manager.getLast(quantity);
+        Movie[] actual = manager.getLast();
         Movie[] expected = new Movie[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
         assertArrayEquals(expected, actual);
     }

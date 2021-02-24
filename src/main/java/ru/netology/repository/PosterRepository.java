@@ -43,6 +43,6 @@ public class PosterRepository {
     }
 
     public void removeAll() {
-        Movie[] poster = new Movie[0];
+        poster = new Movie[0];
     }
 }

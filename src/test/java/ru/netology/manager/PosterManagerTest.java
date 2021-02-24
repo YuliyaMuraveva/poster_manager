@@ -30,29 +30,30 @@ public class PosterManagerTest {
     private Movie tenth = new Movie(10, "tenth", "Western", "www.tenthUrl.com");
     private Movie eleventh = new Movie(11, "eleventh", "Documentary", "www.eleventhUrl.com");
 
-    @BeforeEach
-    public void setUp() {
-        Movie[] returned = new Movie[]{first, second};
+    @Test
+    void getAll() {
+        Movie[] returned = new Movie[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
         doReturn(returned).when(repository).findAll();
+        Movie[] actual = manager.getAll();
+        Movie[] expected = new Movie[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+        assertArrayEquals(expected, actual);
     }
 
     @Test
-    void getAll() {
-        Movie[] actual = manager.getAll();
-        Movie[] expected = new Movie[]{second, first};
+    void getLastWithQuantityMoreThanInList() {
+        Movie[] returned = new Movie[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth};
+        doReturn(returned).when(repository).findAll();
+        Movie[] actual = manager.getLast();
+        Movie[] expected = new Movie[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void getLastWithQuantityLessThanInList() {
-        Movie[] returned = new Movie[]{first, second};
+        Movie[] returned = new Movie[]{first, second, third, fourth, fifth, sixth, seventh, eighth, ninth, tenth, eleventh};
         doReturn(returned).when(repository).findAll();
-        doCallRealMethod(returned).when(repository).save(third);
-        manager.add(third);
-        Movie[] actual = manager.getAll();
-        Movie[] expected = new Movie[]{third, second, first};
+        Movie[] actual = manager.getLast();
+        Movie[] expected = new Movie[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
         assertArrayEquals(expected, actual);
-        verify(repository).findAll();
     }
-
 }

@@ -4,10 +4,15 @@ import ru.netology.domain.Movie;
 import ru.netology.repository.PosterRepository;
 
 public class PosterManager {
+    private int filmQuantity = 10;
     private PosterRepository repository;
 
     public PosterManager(PosterRepository repository) {
         this.repository = repository;
+    }
+
+    public PosterManager(int filmQuantity) {
+        this.filmQuantity = filmQuantity;
     }
 
     public void add(Movie movie) {
@@ -19,6 +24,17 @@ public class PosterManager {
         Movie[] result = new Movie[poster.length];
         for (int i = 0; i < result.length; i++) {
             int index = result.length - 1 - i;
+            result[i] = poster[index];
+        }
+        return result;
+    }
+
+    public Movie[] getLast() {
+        Movie[] poster = repository.findAll();
+        int quantity = Math.min(filmQuantity, poster.length);
+        Movie[] result = new Movie[quantity];
+        for (int i = 0; i < quantity; i++) {
+            int index = poster.length - 1 - i;
             result[i] = poster[index];
         }
         return result;

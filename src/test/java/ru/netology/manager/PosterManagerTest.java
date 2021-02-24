@@ -3,17 +3,21 @@ package ru.netology.manager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.netology.domain.Movie;
+import ru.netology.repository.PosterRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class PosterManagerTest {
+public class PosterManagerTest {
     @Mock
+    private PosterRepository repository;
+    @InjectMocks
     private PosterManager manager;
-    private int quantity = 10;
     private Movie first = new Movie(1, "first", "Action", "www.firstUrl.com");
     private Movie second = new Movie(2, "second", "Comedy", "www.secondUrl.com");
     private Movie third = new Movie(3, "third", "Cartoon", "www.thirdUrl.com");
@@ -28,30 +32,27 @@ class PosterManagerTest {
 
     @BeforeEach
     public void setUp() {
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-        manager.add(fourth);
-        manager.add(fifth);
-        manager.add(sixth);
-        manager.add(seventh);
-        manager.add(eighth);
-        manager.add(ninth);
+        Movie[] returned = new Movie[]{first, second};
+        doReturn(returned).when(repository).findAll();
     }
 
     @Test
-    void getLastWithQuantityMoreThanInList() {
-        Movie[] actual = manager.getLast(quantity);
-        Movie[] expected = new Movie[]{ninth, eighth, seventh, sixth, fifth, fourth, third, second, first};
+    void getAll() {
+        Movie[] actual = manager.getAll();
+        Movie[] expected = new Movie[]{second, first};
         assertArrayEquals(expected, actual);
     }
 
     @Test
     void getLastWithQuantityLessThanInList() {
-        manager.add(tenth);
-        manager.add(eleventh);
-        Movie[] actual = manager.getLast(quantity);
-        Movie[] expected = new Movie[]{eleventh, tenth, ninth, eighth, seventh, sixth, fifth, fourth, third, second};
+        Movie[] returned = new Movie[]{first, second};
+        doReturn(returned).when(repository).findAll();
+        doCallRealMethod(returned).when(repository).save(third);
+        manager.add(third);
+        Movie[] actual = manager.getAll();
+        Movie[] expected = new Movie[]{third, second, first};
         assertArrayEquals(expected, actual);
+        verify(repository).findAll();
     }
+
 }
